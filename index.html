@@ -169,7 +169,7 @@
         <div class="result-line">Annual Impact (Hours): <strong>${totalHoursPerYear.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">Total Financial Impact: <strong>$${totalImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
         <div class="result-line">Annual Solution Cost: <strong>$${solutionCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
-        <div class="result-line"><strong>Net Impact:</strong> $${savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${savings > 0 ? 'Savings' : 'Loss'})</div>
+        <!-- <div class="result-line"><strong>Net Impact:</strong> $${savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${savings > 0 ? 'Savings' : 'Loss'})</div> -->
         <div class="result-line"><strong>ROI Break-Even:</strong> ${roiMonths !== "N/A" ? roiMonths.toFixed(1) + ' months' : 'N/A'}</div>
       `;
     }
