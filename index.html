@@ -157,7 +157,8 @@
       else solutionCost = clients * 0.1 * 75 ;
 
       const savings = totalImpact - solutionCost;
-      const roiMonths = solutionCost > 0 ? (totalImpact / solutionCost) : "N/A";
+      const monthlySavings = totalImpact / 12;
+      const roiMonths = monthlySavings > 0 ? solutionCost / monthlySavings : "N/A";
 
       document.getElementById("results").innerHTML = `
         <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
