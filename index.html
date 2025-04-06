@@ -78,7 +78,7 @@
   <select id="laborRate">
     <script>
       for (let i = 30000; i <= 100000; i += 5000) {
-        document.write(`<option value="${i}'>$${i.toLocaleString()}`);
+        document.write(`<option value="${i}">$${i.toLocaleString()}</option>`);
       }
     </script>
   </select>
@@ -86,6 +86,7 @@
   <button onclick="calculateROI()">Calculate ROI</button>
 
   <div id="results"></div>
+  <!-- Button remains visible and working -->
 
   <script>
     const data = {
@@ -168,15 +169,16 @@
       const totalImpact = totalHoursPerYear * laborRate;
 
       let solutionCost;
-      if (coverage === "Full Coverage") solutionCost = clients * 75 ;
-      else if (coverage === "Medium Coverage") solutionCost = clients * 0.5 * 75 ;
-      else solutionCost = clients * 0.1 * 75 ;
+      if (coverage === "Full Coverage") solutionCost = clients * 75;
+      else if (coverage === "Medium Coverage") solutionCost = clients * 0.5 * 75;
+      else solutionCost = clients * 0.1 * 75;
 
       const savings = totalImpact - solutionCost;
       const monthlySavings = totalImpact / 12;
       const roiMonths = monthlySavings > 0 ? solutionCost / monthlySavings : "N/A";
 
       document.getElementById("results").innerHTML = `
+        <div class="result-line">Impacted Clients: <strong>${impactedClients.toLocaleString()}</strong></div>
         <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">Coverage Minutes/Day: <strong>${coverageMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">Congestion Minutes/Day: <strong>${congestionMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
@@ -186,6 +188,7 @@
         <div class="result-line">Annual Impact (Hours): <strong>${totalHoursPerYear.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} hours</strong></div>
         <div class="result-line">Total Financial Impact: <strong>$${totalImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
         <div class="result-line">Annual Solution Cost: <strong>$${solutionCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
+        <div class="result-line"><strong>Net Impact:</strong> $${savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${savings > 0 ? 'Savings' : 'Loss'})</div>
         <div class="result-line"><strong>ROI Break-Even:</strong> ${roiMonths !== "N/A" ? roiMonths.toFixed(1) + ' months' : 'N/A'}</div>
       `;
     }
