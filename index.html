@@ -39,7 +39,7 @@
 <body>
   <h1>Wi-Fi ROI Calculator</h1>
 
-  <label for="vertical">1. Select Your Vertical:</label>
+  <label for="vertical">1. Select Your Vertical or Use Case:</label>
   <select id="vertical">
     <option>Enterprise Office Space</option>
     <option>Government</option>
@@ -50,10 +50,10 @@
     <option>Retail</option>
   </select>
 
-  <label for="clients">2. Number of Client Devices:</label>
+  <label for="clients">2. Total Number of Client Devices:</label>
   <input type="number" id="clients" min="1" />
 
-  <label for="impactPercent">3. What percent of clients do you feel are impacted by poor Wi-Fi?</label>
+  <label for="impactPercent">3. What percent of these clients are impacted by poor Wi-Fi?</label>
   <select id="impactPercent">
     <option value="10">10%</option>
     <option value="20">20%</option>
@@ -166,7 +166,7 @@
       const totalMin = roamingMin + coverageMin + congestionMin + cciMin + aciMin;
       const totalHoursPerDay = totalMin / 60;
       const totalHoursPerYear = totalHoursPerDay * 365;
-      const totalImpact = totalHoursPerYear * laborRate;
+      const totalImpact = totalHoursPerYear * laborRate / 2080;
 
       let solutionCost;
       if (coverage === "Full Coverage") solutionCost = clients * 75;
