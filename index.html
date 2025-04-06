@@ -149,7 +149,7 @@
       const totalMin = roamingMin + coverageMin + congestionMin + cciMin + aciMin;
       const totalHoursPerDay = totalMin / 60;
       const totalHoursPerYear = totalHoursPerDay * 365;
-      const totalImpact = totalHoursPerYear * laborRate;
+      const totalImpact = totalHoursPerYear * laborRate / 2080;
 
       let solutionCost;
       if (coverage === "Full Coverage") solutionCost = clients * 75 * 12;
