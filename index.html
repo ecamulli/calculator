@@ -160,7 +160,7 @@
       const roiMonths = solutionCost > 0 ? (totalImpact / solutionCost) : "N/A";
 
       document.getElementById("results").innerHTML = `
-        <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toFixed(2)}</strong></div>
+        <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">Coverage Minutes/Day: <strong>${coverageMin.toFixed(2)}</strong></div>
         <div class="result-line">Congestion Minutes/Day: <strong>${congestionMin.toFixed(2)}</strong></div>
         <div class="result-line">CCI Minutes/Day: <strong>${cciMin.toFixed(2)}</strong></div>
