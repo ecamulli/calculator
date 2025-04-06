@@ -157,7 +157,7 @@
       else solutionCost = clients * 0.1 * 75 * 12;
 
       const savings = totalImpact - solutionCost;
-      const roiMonths = solutionCost > 0 ? (totalImpact / solutionCost) * 12 : "N/A";
+      const roiMonths = solutionCost > 0 ? (totalImpact / solutionCost) : "N/A";
 
       document.getElementById("results").innerHTML = `
         <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toFixed(2)}</strong></div>
