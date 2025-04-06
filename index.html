@@ -37,7 +37,7 @@
   </style>
 </head>
 <body>
-  <h1>7SIGNAL ROI Calculator</h1>
+  <h1>Wi-Fi ROI Calculator</h1>
 
   <label for="vertical">1. Select Your Vertical:</label>
   <select id="vertical">
@@ -53,18 +53,32 @@
   <label for="clients">2. Number of Client Devices:</label>
   <input type="number" id="clients" min="1" />
 
-  <label for="coverage">3. Proactive Coverage Level:</label>
+  <label for="impactPercent">3. What percent of clients do you feel are impacted by poor Wi-Fi?</label>
+  <select id="impactPercent">
+    <option value="10">10%</option>
+    <option value="20">20%</option>
+    <option value="30">30%</option>
+    <option value="40">40%</option>
+    <option value="50">50%</option>
+    <option value="60">60%</option>
+    <option value="70">70%</option>
+    <option value="80">80%</option>
+    <option value="90">90%</option>
+    <option value="100">100%</option>
+  </select>
+
+  <label for="coverage">4. Proactive Coverage Level:</label>
   <select id="coverage">
     <option>Full Coverage</option>
     <option>Medium Coverage</option>
     <option>Low Coverage</option>
   </select>
 
-  <label for="laborRate">4. Average Annual Loaded Labor Rate:</label>
+  <label for="laborRate">5. Average Annual Loaded Labor Rate:</label>
   <select id="laborRate">
     <script>
       for (let i = 30000; i <= 100000; i += 5000) {
-        document.write(`<option value="${i}">$${i.toLocaleString()}</option>`);
+        document.write(`<option value="${i}'>$${i.toLocaleString()}`);
       }
     </script>
   </select>
@@ -136,25 +150,27 @@
     function calculateROI() {
       const vertical = document.getElementById("vertical").value;
       const clients = parseInt(document.getElementById("clients").value);
+      const impactPercent = parseInt(document.getElementById("impactPercent").value);
+      const impactedClients = Math.round(clients * (impactPercent / 100));
       const coverage = document.getElementById("coverage").value;
       const laborRate = parseInt(document.getElementById("laborRate").value);
 
       const vData = data[vertical];
-      const roamingMin = vData.roaming * clients;
-      const coverageMin = vData.coverage * clients;
-      const congestionMin = vData.congestion * clients;
-      const cciMin = vData.cci * clients;
-      const aciMin = vData.aci * clients;
+      const roamingMin = vData.roaming * impactedClients;
+      const coverageMin = vData.coverage * impactedClients;
+      const congestionMin = vData.congestion * impactedClients;
+      const cciMin = vData.cci * impactedClients;
+      const aciMin = vData.aci * impactedClients;
 
       const totalMin = roamingMin + coverageMin + congestionMin + cciMin + aciMin;
       const totalHoursPerDay = totalMin / 60;
       const totalHoursPerYear = totalHoursPerDay * 365;
-      const totalImpact = totalHoursPerYear * laborRate / 2080;
+      const totalImpact = totalHoursPerYear * laborRate;
 
       let solutionCost;
-      if (coverage === "Full Coverage") solutionCost = clients * 75 ;
-      else if (coverage === "Medium Coverage") solutionCost = clients * 0.5 * 75 ;
-      else solutionCost = clients * 0.1 * 75 ;
+      if (coverage === "Full Coverage") solutionCost = clients * 75;
+      else if (coverage === "Medium Coverage") solutionCost = clients * 0.5 * 75;
+      else solutionCost = clients * 0.1 * 75;
 
       const savings = totalImpact - solutionCost;
       const monthlySavings = totalImpact / 12;
@@ -166,11 +182,10 @@
         <div class="result-line">Congestion Minutes/Day: <strong>${congestionMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">CCI Minutes/Day: <strong>${cciMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
         <div class="result-line">ACI Minutes/Day: <strong>${aciMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
-        <div class="result-line">Total Poor Wi-Fi Minutes/Day: <strong>${totalMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
-        <div class="result-line">Annual Impact (Hours): <strong>${totalHoursPerYear.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
+        <div class="result-line">Total Poor Wi-Fi Minutes/Day: <strong>${totalMin.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} min</strong> = <strong>${totalHoursPerDay.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} hours</strong></div>
+        <div class="result-line">Annual Impact (Hours): <strong>${totalHoursPerYear.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} hours</strong></div>
         <div class="result-line">Total Financial Impact: <strong>$${totalImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
         <div class="result-line">Annual Solution Cost: <strong>$${solutionCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
-        <!-- <div class="result-line"><strong>Net Impact:</strong> $${savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${savings > 0 ? 'Savings' : 'Loss'})</div> -->
         <div class="result-line"><strong>ROI Break-Even:</strong> ${roiMonths !== "N/A" ? roiMonths.toFixed(1) + ' months' : 'N/A'}</div>
       `;
     }
