@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wi-Fi ROI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    select, input {
+      width: 300px;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+    }
+    #results {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .result-line {
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wi-Fi ROI Calculator</h1>
+
+  <label for="vertical">1. Select Your Vertical:</label>
+  <select id="vertical">
+    <option>Enterprise Office Space</option>
+    <option>Government</option>
+    <option>High Density Large Venue</option>
+    <option>Higher Education</option>
+    <option>Hospital Healthcare</option>
+    <option>Manufacturing/Distribution</option>
+    <option>Retail</option>
+  </select>
+
+  <label for="clients">2. Number of Client Devices:</label>
+  <input type="number" id="clients" min="1" />
+
+  <label for="coverage">3. Proactive Coverage Level:</label>
+  <select id="coverage">
+    <option>Full Coverage</option>
+    <option>Medium Coverage</option>
+    <option>Low Coverage</option>
+  </select>
+
+  <label for="laborRate">4. Average Annual Loaded Labor Rate:</label>
+  <select id="laborRate">
+    <script>
+      for (let i = 30000; i <= 100000; i += 5000) {
+        document.write(`<option value="${i}">$${i.toLocaleString()}</option>`);
+      }
+    </script>
+  </select>
+
+  <button onclick="calculateROI()">Calculate ROI</button>
+
+  <div id="results"></div>
+
+  <script>
+    const data = {
+      "Enterprise Office Space": {
+        roaming: 2.046662,
+        coverage: 6.821863,
+        congestion: 0.007744,
+        cci: 7.115457,
+        aci: 22.302295,
+        total_hours: 0.542480
+      },
+      "Government": {
+        roaming: 5.160000,
+        coverage: 0.400000,
+        congestion: 0.000000,
+        cci: 4.506667,
+        aci: 10.440000,
+        total_hours: 0.341778
+      },
+      "High Density Large Venue": {
+        roaming: 0.351282,
+        coverage: 0.230769,
+        congestion: 0.000000,
+        cci: 1.669231,
+        aci: 1.669231,
+        total_hours: 0.013504
+      },
+      "Higher Education": {
+        roaming: 5.630929,
+        coverage: 69.428190,
+        congestion: 0.032131,
+        cci: 17.003247,
+        aci: 69.260245,
+        total_hours: 1.434783
+      },
+      "Hospital Healthcare": {
+        roaming: 5.449414,
+        coverage: 5.684552,
+        congestion: 0.021129,
+        cci: 8.558805,
+        aci: 9.044478,
+        total_hours: 0.383673
+      },
+      "Manufacturing/Distribution": {
+        roaming: 3.5,
+        coverage: 3.5,
+        congestion: 0.01,
+        cci: 6,
+        aci: 10,
+        total_hours: 0.38
+      },
+      "Retail": {
+        roaming: 2,
+        coverage: 2,
+        congestion: 0.005,
+        cci: 5,
+        aci: 8,
+        total_hours: 0.27
+      }
+    };
+
+    function calculateROI() {
+      const vertical = document.getElementById("vertical").value;
+      const clients = parseInt(document.getElementById("clients").value);
+      const coverage = document.getElementById("coverage").value;
+      const laborRate = parseInt(document.getElementById("laborRate").value);
+
+      const vData = data[vertical];
+      const roamingMin = vData.roaming * clients;
+      const coverageMin = vData.coverage * clients;
+      const congestionMin = vData.congestion * clients;
+      const cciMin = vData.cci * clients;
+      const aciMin = vData.aci * clients;
+
+      const totalMin = roamingMin + coverageMin + congestionMin + cciMin + aciMin;
+      const totalHoursPerDay = totalMin / 60;
+      const totalHoursPerYear = totalHoursPerDay * 365;
+      const totalImpact = totalHoursPerYear * laborRate;
+
+      let solutionCost;
+      if (coverage === "Full Coverage") solutionCost = clients * 75;
+      else if (coverage === "Medium Coverage") solutionCost = clients * 0.5 * 75;
+      else solutionCost = clients * 0.1 * 75;
+
+      const savings = totalImpact - solutionCost;
+
+      document.getElementById("results").innerHTML = `
+        <div class="result-line">Critical Roaming Minutes/Day: <strong>${roamingMin.toFixed(2)}</strong></div>
+        <div class="result-line">Coverage Minutes/Day: <strong>${coverageMin.toFixed(2)}</strong></div>
+        <div class="result-line">Congestion Minutes/Day: <strong>${congestionMin.toFixed(2)}</strong></div>
+        <div class="result-line">CCI Minutes/Day: <strong>${cciMin.toFixed(2)}</strong></div>
+        <div class="result-line">ACI Minutes/Day: <strong>${aciMin.toFixed(2)}</strong></div>
+        <div class="result-line">Total Poor Wi-Fi Minutes/Day: <strong>${totalMin.toFixed(2)} min</strong> = <strong>${totalHoursPerDay.toFixed(2)} hours</strong></div>
+        <div class="result-line">Annual Impact (Hours): <strong>${totalHoursPerYear.toFixed(2)} hours</strong></div>
+        <div class="result-line">Total Financial Impact: <strong>$${totalImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
+        <div class="result-line">Annual Solution Cost: <strong>$${solutionCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
+        <div class="result-line"><strong>Net Impact:</strong> $${savings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${savings > 0 ? 'Savings' : 'Loss'})</div>
+      `;
+    }
+  </script>
+</body>
+</html>
