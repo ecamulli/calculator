@@ -169,7 +169,7 @@
       const totalImpact = totalHoursPerYear * laborRate / 2080;
 
       let solutionCost;
-      if (coverage === "Full Coverage") solutionCost = impactedClients * 75;
+      if (coverage === "Full Coverage") solutionCost = clients * 75;
       else if (coverage === "Medium Coverage") solutionCost = impactedClients * 0.5 * 75;
       else solutionCost = impactedClients * 0.1 * 75;
 
