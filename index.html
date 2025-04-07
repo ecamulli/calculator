@@ -75,12 +75,20 @@
   </select>
 
   <label for="laborRate">5. Average Annual Loaded Labor Rate:</label>
-  <select id="laborRate">
-    <script>
-      for (let i = 30000; i <= 100000; i += 5000) {
-        document.write(`<option value="${i}">$${i.toLocaleString()}</option>`);
-      }
-    </script>
+  <select id="laborRate"></select>
+
+  <script>
+    const laborRateSelect = document.getElementById("laborRate");
+    for (let i = 30000; i <= 100000; i += 5000) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = `$${i.toLocaleString()}`;
+      laborRateSelect.appendChild(option);
+    }
+    // Set default to $50,000
+    laborRateSelect.value = "50000";
+  </script>
+
   </select>
 
   <button onclick="calculateROI()">Calculate ROI</button>
