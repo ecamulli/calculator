@@ -37,7 +37,8 @@
   </style>
 </head>
 <body>
-  <h1>7SIGNAL ROI Calculator</h1>
+  <h1>The Impact of Poor Wi-Fi Performance</h1>
+  <h2>Financial calculator by 7SIGNAL</h2>
 
   <label for="vertical">1. Select Your Vertical or Use Case:</label>
   <select id="vertical">
@@ -173,7 +174,21 @@
 
       const totalMin = roamingMin + coverageMin + congestionMin + cciMin + aciMin;
       const totalHoursPerDay = totalMin / 60;
-      const totalHoursPerYear = totalHoursPerDay * 365;
+      let workingDays;
+      if (
+        vertical === "Enterprise Office Space" ||
+        vertical === "Government" ||
+        vertical === "Higher Education"
+      ) {
+        workingDays = 250;
+      } else if (vertical === "High Density Large Venue") {
+        workingDays = 300;
+      } else {
+        workingDays = 360; // Hospital Healthcare, Manufacturing/Distribution, Retail
+      }
+      
+      const totalHoursPerYear = totalHoursPerDay * workingDays;
+
       const totalImpact = totalHoursPerYear * laborRate / 2080;
 
       let solutionCost;
