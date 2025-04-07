@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>7SIGNAL ROI Calculator</title>
+  <title>7SIGNAL Financial Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,7 +38,7 @@
 </head>
 <body>
   <h1>The Impact of Poor Wi-Fi Performance</h1>
-  <h2>Financial calculator by 7SIGNAL</h2>
+  <h3>A financial calculator by 7SIGNAL</h3>
 
   <label for="vertical">1. Select Your Vertical or Use Case:</label>
   <select id="vertical">
@@ -211,7 +211,7 @@
         <div class="result-line">Total Annual Impact (Hours): <strong>${totalHoursPerYear.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} hours</strong></div>
         <div class="result-line">Total Annual Financial Impact of Poor Wi-Fi to your Organization: <strong>$${totalImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
         <div class="result-line">Annual Solution Cost: <strong>$${solutionCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></div>
-        <div class="result-line"><strong>ROI Break-Even:</strong> ${roiMonths !== "N/A" ? roiMonths.toFixed(1) + ' months' : 'N/A'}</div>
+        
       `;
     }
   </script>
